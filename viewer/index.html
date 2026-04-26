@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <title>7gogo Talk Clone</title>
+  <script>
+    try {
+      if (sessionStorage.getItem("sidebarCollapsed") === "1") {
+        document.documentElement.classList.add("sidebar-collapsed");
+      }
+    } catch (error) {
+      // Ignore storage access failures and keep default expanded layout.
+    }
+  </script>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ff4b43'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial' font-size='18' fill='white'%3E7%3C/text%3E%3C/svg%3E"
+  >
+  <link
+    rel="stylesheet"
+    href="./styles.css"
+  >
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside
+      class="archive-sidebar"
+      aria-label="Archived members"
+    >
+      <div class="archive-sidebar__header">
+        <button
+          id="sidebar-toggle"
+          class="sidebar-toggle"
+          type="button"
+          aria-label="サイドバーを開閉"
+          title="サイドバーを開閉"
+        ><svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M 9.5 5 H 20.5 C 20.7761 5 21 5.22386 21 5.5 V 6.7 C 21 6.97614 20.7761 7.2 20.5 7.2 H 9.5 C 9.22386 7.2 9 6.97614 9 6.7 V 5.5 C 9 5.22386 9.22386 5 9.5 5 Z M 9.5 11 H 20.5 C 20.7761 11 21 11.2239 21 11.5 V 12.7 C 21 12.9761 20.7761 13.2 20.5 13.2 H 9.5 C 9.22386 13.2 9 12.9761 9 12.7 V 11.5 C 9 11.2239 9.22386 11 9.5 11 Z M 9.5 17 H 20.5 C 20.7761 17 21 17.2239 21 17.5 V 18.7 C 21 18.9761 20.7761 19.2 20.5 19.2 H 9.5 C 9.22386 19.2 9 18.9761 9 18.7 V 17.5 C 9 17.2239 9.22386 17 9.5 17 Z M 5.5 4.5 C 6.32843 4.5 7 5.17157 7 6 S 6.32843 7.5 5.5 7.5 S 4 6.82843 4 6 S 4.67157 4.5 5.5 4.5 Z M 5.5 10.65 C 6.32843 10.65 7 11.3216 7 12.15 S 6.32843 13.65 5.5 13.65 S 4 12.9784 4 12.15 S 4.67157 10.65 5.5 10.65 Z M 5.5 16.5 C 6.32843 16.5 7 17.1716 7 18 S 6.32843 19.5 5.5 19.5 S 4 18.8284 4 18 S 4.67157 16.5 5.5 16.5 Z"
+            />
+          </svg></button>
+        <div class="archive-sidebar__copy">
+          <p class="archive-sidebar__eyebrow">7gogo archive</p>
+          <h1>Archived talks</h1>
+          <p
+            id="archive-summary"
+            class="archive-summary"
+          >Loading archived members...</p>
+        </div>
+      </div>
+      <nav
+        id="archive-members"
+        class="archive-members"
+        aria-label="Archived members list"
+      ></nav>
+    </aside>
+
+    <main
+      id="main-panel"
+      class="main-panel"
+      aria-label="Talk viewer"
+    >
+      <section
+        id="scroll-port"
+        class="timeline-panel"
+        aria-label="Talk timeline"
+      >
+        <section
+          class="timeline-feed"
+          aria-live="polite"
+        >
+          <div
+            id="load-status"
+            class="load-status"
+          >Loading</div>
+          <div
+            id="top-sentinel"
+            class="top-sentinel"
+            aria-hidden="true"
+          ></div>
+          <div
+            id="feed"
+            class="feed"
+          ></div>
+        </section>
+      </section>
+
+      <aside
+        class="detail-panel"
+        aria-label="Talk profile"
+      >
+        <div class="detail-panel__sticky">
+          <section class="profile-hero">
+            <img
+              id="profile-cover"
+              class="profile-cover"
+              alt=""
+              hidden
+            >
+            <div class="profile-card">
+              <img
+                id="profile-avatar"
+                class="profile-avatar"
+                alt=""
+                hidden
+              >
+              <div class="profile-copy">
+                <p
+                  id="profile-handle"
+                  class="profile-handle"
+                ></p>
+                <h1 id="profile-name">7gogo Talk</h1>
+                <p id="profile-description"></p>
+              </div>
+              <button
+                class="follow-button"
+                type="button"
+              >✓ フォロー中</button>
+              <dl class="profile-meta">
+                <div>
+                  <dt>ウォッチ数</dt>
+                  <dd id="profile-watch">-</dd>
+                </div>
+                <div>
+                  <dt>メンバー</dt>
+                  <dd id="profile-member">-</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <div
+            class="detail-tabs"
+            role="tablist"
+            aria-label="Talk detail sections"
+          >
+            <button
+              id="tab-info"
+              class="detail-tab"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="detail-info"
+              aria-label="情報"
+              title="情報"
+            >情報</button>
+            <button
+              id="tab-media"
+              class="detail-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="detail-media"
+              aria-label="画像・動画"
+              title="画像・動画"
+              tabindex="-1"
+            >画像・動画</button>
+          </div>
+
+          <section
+            id="detail-info"
+            class="detail-section"
+            role="tabpanel"
+            aria-labelledby="tab-info"
+          >
+            <div class="detail-card">
+              <p
+                id="detail-lead"
+                class="detail-lead"
+              ></p>
+              <dl class="detail-meta">
+                <div>
+                  <dt>アーカイブ更新</dt>
+                  <dd id="detail-generated">-</dd>
+                </div>
+                <div>
+                  <dt>投稿数</dt>
+                  <dd id="detail-posts">-</dd>
+                </div>
+                <div>
+                  <dt>画像・動画</dt>
+                  <dd id="detail-media-count">-</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <section
+            id="detail-media"
+            class="detail-section"
+            role="tabpanel"
+            aria-labelledby="tab-media"
+            hidden
+          >
+            <div class="detail-card detail-card--media">
+              <div class="media-panel-head">
+                <div>
+                  <h2>画像・動画</h2>
+                  <p id="media-summary">Loading media...</p>
+                </div>
+              </div>
+              <div
+                id="media-grid"
+                class="media-grid"
+              ></div>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <dialog
+    id="lightbox"
+    class="lightbox"
+  >
+    <button
+      id="lightbox-close"
+      class="lightbox-close"
+      type="button"
+      aria-label="Close"
+    >×</button>
+    <img
+      id="lightbox-image"
+      alt=""
+    >
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+
+</html>

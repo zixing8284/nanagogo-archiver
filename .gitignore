@@ -1,0 +1,12 @@
+# PHP local archive ignore
+/vendor/
+/storage/
+.DS_Store
+*.log
+composer.phar
+*.tmp
+.idea/
+.vscode/
+node_modules/
+.env
+config/
