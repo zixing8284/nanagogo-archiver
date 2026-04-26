@@ -8,6 +8,12 @@ A tool to backup 7gogo talk histories and media files, complete with a local web
 2. **Download Media**: Saves images, videos, and avatars locally, rewriting links in JSON files.
 3. **Local Offline Viewer**: Provides a static UI clone to browse archived content completely offline.
 
+## 🖼 Viewer Preview
+
+Sample view of the local offline viewer on GitHub:
+
+![7gogo archive viewer sample](sample.png)
+
 ## 🚀 Quick Start
 
 Assuming the user slug (usually the ID or member's name from the 7gogo URL) we want to backup is `nishino-nanase`.
